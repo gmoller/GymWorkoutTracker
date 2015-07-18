@@ -6,7 +6,7 @@ namespace DatabaseMySql
 {
     public class BodyPartRepository : BaseRepository<BodyPart>, IBodyPartRepository
     {
-        protected override string TableName { get { return "body_part"; } }
+        protected override string TableName { get { return "muscle_group"; } }
         protected override string IdentifierColumn { get { return "id"; } }
         protected override string[] Columns { get { return new[] { "name" }; } }
 

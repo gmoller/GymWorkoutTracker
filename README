@@ -1,3 +1,7 @@
 Author: Greg Moller
 What: Simple application to store data from gym workouts.
 Notes: Originally created to try out some ideas on an Onion Architecture framework.
+
+TODO: -Transaction handling between entities
+      -Array binding for mass inserts/updates
+	  -Improved updates: only update columns which have changed, last updated timestamp

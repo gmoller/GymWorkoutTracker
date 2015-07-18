@@ -16,7 +16,7 @@ namespace DatabaseOracle
 
             try
             {
-                const string sqlFetch = "SELECT id, name FROM body_part WHERE id = :id";
+                const string sqlFetch = "SELECT id, name FROM muscle_group WHERE id = :id";
                 var command = new OracleCommand(sqlFetch, _context.DbConnection);
                 AddIdParam(command, id);
                 command.Prepare();
@@ -53,7 +53,7 @@ namespace DatabaseOracle
             {
                 var allEntities = new List<BodyPart>();
 
-                const string sqlFetch = "SELECT id, name FROM body_part";
+                const string sqlFetch = "SELECT id, name FROM muscle_group";
                 var command = new OracleCommand(sqlFetch, _context.DbConnection);
                 OracleDataReader reader = command.ExecuteReader();
 
@@ -81,13 +81,13 @@ namespace DatabaseOracle
             _context.BeginTransaction();
 
             // get nextval
-            const string sqlGetNextId = "SELECT MAX(id) + 1 FROM body_part";
+            const string sqlGetNextId = "SELECT MAX(id) + 1 FROM muscle_group";
             var command = new OracleCommand(sqlGetNextId, _context.DbConnection);
             object obj = command.ExecuteScalar();
             entity.Id = Convert.ToInt64(obj);
 
             // insert
-            const string sqlInsert = "INSERT INTO body_part (id, name) VALUES (:id, :name)";
+            const string sqlInsert = "INSERT INTO muscle_group (id, name) VALUES (:id, :name)";
             command = new OracleCommand(sqlInsert, _context.DbConnection);
             AddIdParam(command, entity.Id);
             AddColumnParams(command, (BodyPart)entity);
@@ -102,7 +102,7 @@ namespace DatabaseOracle
             _context.OpenConnection();
             _context.BeginTransaction();
 
-            const string sqlUpdate = "UPDATE body_part SET name = :name WHERE id = :id";
+            const string sqlUpdate = "UPDATE muscle_group SET name = :name WHERE id = :id";
             var command = new OracleCommand(sqlUpdate, _context.DbConnection);
             AddColumnParams(command, (BodyPart)entity);
             AddIdParam(command, entity.Id);
@@ -117,7 +117,7 @@ namespace DatabaseOracle
             _context.OpenConnection();
             _context.BeginTransaction();
 
-            const string sqlDelete = "DELETE FROM body_part WHERE id = :id";
+            const string sqlDelete = "DELETE FROM muscle_group WHERE id = :id";
             var command = new OracleCommand(sqlDelete, _context.DbConnection);
             AddIdParam(command, id);
             command.Prepare();

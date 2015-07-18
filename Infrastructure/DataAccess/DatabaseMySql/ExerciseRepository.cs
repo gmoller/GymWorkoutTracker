@@ -8,7 +8,7 @@ namespace DatabaseMySql
     {
         protected override string TableName { get { return "exercise"; } }
         protected override string IdentifierColumn { get { return "id"; } }
-        protected override string[] Columns { get { return new[] { "exrx_name", "alternate_name", "url", "target_id" }; } }
+        protected override string[] Columns { get { return new[] { "exrx_name", "alternate_name", "url", "muscle_id" }; } }
 
         protected override Exercise InstantiateEntityFromReader(MySqlDataReader reader)
         {
@@ -33,7 +33,7 @@ namespace DatabaseMySql
             command.Parameters.AddWithValue("@exrx_name", e.ExRxName);
             command.Parameters.AddWithValue("@alternate_name", e.AlternateName);
             command.Parameters.AddWithValue("@url", e.Url);
-            command.Parameters.AddWithValue("@target_id", e.Target.Id);
+            command.Parameters.AddWithValue("@muscle_id", e.Target.Id);
         }
 
         protected override void AddUpdateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
@@ -43,7 +43,7 @@ namespace DatabaseMySql
             command.Parameters.AddWithValue("@exrx_name", e.ExRxName);
             command.Parameters.AddWithValue("@alternate_name", e.AlternateName);
             command.Parameters.AddWithValue("@url", e.Url);
-            command.Parameters.AddWithValue("@target_id", e.Target.Id);
+            command.Parameters.AddWithValue("@muscle_id", e.Target.Id);
         }
 
         public Exercise GetByAlternateName(string name)
