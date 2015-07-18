@@ -6,28 +6,28 @@ using DomainServices;
 
 namespace DataAccess.InMemory
 {
-    public class TargetInMemoryRepository : ITargetRepository
+    public class MuscleInMemoryRepository : IMuscleRepository
     {
-        private readonly Dictionary<long, Target> _targets = new Dictionary<long, Target>();
+        private readonly Dictionary<long, Muscle> _muscles = new Dictionary<long, Muscle>();
 
         public IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
-            entity.Id = _targets.Count() + 1;
-            _targets.Add(entity.Id, (Target)entity);
+            entity.Id = _muscles.Count() + 1;
+            _muscles.Add(entity.Id, (Muscle)entity);
 
             return entity;
         }
 
         public IDomainIdentifiable<long> Update(IDomainIdentifiable<long> entity)
         {
-            _targets[entity.Id] = (Target)entity;
+            _muscles[entity.Id] = (Muscle)entity;
 
             return entity;
         }
 
         public void Delete(long id)
         {
-            _targets.Remove(id);
+            _muscles.Remove(id);
         }
 
         public void Save()
@@ -35,12 +35,12 @@ namespace DataAccess.InMemory
             // do nothing
         }
 
-        public Target Get(long id)
+        public Muscle Get(long id)
         {
-            Target entity;
+            Muscle entity;
             try
             {
-                entity = _targets[id];
+                entity = _muscles[id];
             }
             catch (KeyNotFoundException)
             {
@@ -50,12 +50,12 @@ namespace DataAccess.InMemory
             return entity;
         }
 
-        public List<Target> GetAll()
+        public List<Muscle> GetAll()
         {
-            return _targets.Select(item => item.Value).ToList();
+            return _muscles.Select(item => item.Value).ToList();
         }
 
-        public Target GetByName(string name)
+        public Muscle GetByName(string name)
         {
             return GetAll().FirstOrDefault(item => item.Name == name);
         }

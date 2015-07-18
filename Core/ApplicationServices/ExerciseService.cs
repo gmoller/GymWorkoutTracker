@@ -6,12 +6,12 @@ namespace ApplicationServices
 {
     public class ExerciseService : BaseService<Exercise, long>, IExerciseService
     {
-        private readonly IRepository<Target, long> _targetRepository;
+        private readonly IRepository<Muscle, long> _muscleRepository;
 
-        public ExerciseService(IRepository<Exercise, long> repository, IRepository<Target, long> targetRepository)
+        public ExerciseService(IRepository<Exercise, long> repository, IRepository<Muscle, long> muscleRepository)
             : base(repository)
         {
-            _targetRepository = targetRepository;
+            _muscleRepository = muscleRepository;
         }
 
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
@@ -19,9 +19,9 @@ namespace ApplicationServices
             var exercise = (Exercise)entity;
             Validate(exercise);
 
-            if (exercise.Target.Id == 0)
+            if (exercise.Muscle.Id == 0)
             {
-                LazyCreateTarget(exercise);
+                LazyCreateMuscle(exercise);
             }
 
             return base.Create(exercise);
@@ -29,42 +29,42 @@ namespace ApplicationServices
 
         private void Validate(Exercise exercise)
         {
-            if (exercise.Target == null)
+            if (exercise.Muscle == null)
             {
-                throw new ApplicationException("Must supply Target.");
+                throw new ApplicationException("Must supply Muscle.");
             }
 
-            if (exercise.Target.Id == 0)
+            if (exercise.Muscle.Id == 0)
             {
-                if (string.IsNullOrEmpty(exercise.Target.Name))
+                if (string.IsNullOrEmpty(exercise.Muscle.Name))
                 {
-                    throw new ApplicationException("Must supply Target name.");
+                    throw new ApplicationException("Must supply Muscle name.");
                 }
             }
-            else if (exercise.Target.Id > 0)
+            else if (exercise.Muscle.Id > 0)
             {
-                var targetService = new TargetService(_targetRepository, null);
-                Target target = targetService.Reader.Get(exercise.Target.Id);
-                if (!exercise.Target.Name.Equals(target.Name))
+                var muscleService = new MuscleService(_muscleRepository, null);
+                Muscle muscle = muscleService.Reader.Get(exercise.Muscle.Id);
+                if (!exercise.Muscle.Name.Equals(muscle.Name))
                 {
-                    throw new ApplicationException("Invalid Target supplied.");
+                    throw new ApplicationException("Invalid Muscle supplied.");
                 }
             }
         }
 
-        private void LazyCreateTarget(Exercise exercise)
+        private void LazyCreateMuscle(Exercise exercise)
         {
-            var targetService = new TargetService(_targetRepository, null);
-            var targetServiceReader = (ITargetRepository)targetService.Reader;
+            var muscleService = new MuscleService(_muscleRepository, null);
+            var muscleServiceReader = (IMuscleRepository)muscleService.Reader;
 
-            Target target = targetServiceReader.GetByName(exercise.Target.Name);
-            if (target == null)
+            Muscle muscle = muscleServiceReader.GetByName(exercise.Muscle.Name);
+            if (muscle == null)
             {
-                targetService.Create(exercise.Target);
+                muscleService.Create(exercise.Muscle);
             }
             else
             {
-                exercise.Target = target;
+                exercise.Muscle = muscle;
             }
         }
     }

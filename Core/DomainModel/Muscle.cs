@@ -1,6 +1,6 @@
 ﻿namespace DomainModel
 {
-    public class Target : IDomainIdentifiable<long>
+    public class Muscle : IDomainIdentifiable<long>
     {
         public long Id { get; set; }
         public string Name { get; set; }

@@ -24,20 +24,20 @@ namespace Tests
             }
         }
 
-        protected ITargetRepository GetTargetRepository()
+        protected IMuscleRepository GetMuscleRepository()
         {
             string repository = ConfigurationManager.AppSettings["Repository"];
 
             switch (repository)
             {
                 case "InMemory":
-                    return new TargetInMemoryRepository();
+                    return new MuscleInMemoryRepository();
                 case "MySql":
-                    return new TargetRepository();
+                    return new MuscleRepository();
                 case "Oracle":
-                    return new TargetRepository();
+                    return new MuscleRepository();
                 default:
-                    return new TargetInMemoryRepository();
+                    return new MuscleInMemoryRepository();
             }
         }
 

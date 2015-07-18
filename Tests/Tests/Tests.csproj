@@ -42,7 +42,7 @@
     <Compile Include="ExerciseInstanceTests.cs" />
     <Compile Include="ExerciseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TargetTests.cs" />
+    <Compile Include="MuscleTests.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>

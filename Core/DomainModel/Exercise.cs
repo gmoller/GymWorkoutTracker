@@ -6,6 +6,6 @@
         public string ExRxName { get; set; }
         public string AlternateName { get; set; }
         public string Url { get; set; }
-        public Target Target { get; set; }
+        public Muscle Muscle { get; set; }
     }
 }

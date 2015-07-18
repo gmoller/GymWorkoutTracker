@@ -41,9 +41,9 @@
     <Compile Include="IExerciseInstanceService.cs" />
     <Compile Include="IExerciseService.cs" />
     <Compile Include="IBaseService.cs" />
-    <Compile Include="ITargetService.cs" />
+    <Compile Include="IMuscleService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TargetService.cs" />
+    <Compile Include="MuscleService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">

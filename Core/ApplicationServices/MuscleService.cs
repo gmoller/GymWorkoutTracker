@@ -4,11 +4,11 @@ using DomainServices;
 
 namespace ApplicationServices
 {
-    public class TargetService : BaseService<Target, long>, ITargetService
+    public class MuscleService : BaseService<Muscle, long>, IMuscleService
     {
         private readonly IRepository<MuscleGroup, long> _muscleGroupRepository;
 
-        public TargetService(IRepository<Target, long> repository, IRepository<MuscleGroup, long> muscleGroupRepository)
+        public MuscleService(IRepository<Muscle, long> repository, IRepository<MuscleGroup, long> muscleGroupRepository)
             : base(repository)
         {
             _muscleGroupRepository = muscleGroupRepository;
@@ -16,55 +16,55 @@ namespace ApplicationServices
 
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
-            var target = (Target)entity;
-            Validate(target);
+            var muscle = (Muscle)entity;
+            Validate(muscle);
 
-            if (target.MuscleGroup.Id == 0)
+            if (muscle.MuscleGroup.Id == 0)
             {
-                LazyCreateMuscleGroup(target);
+                LazyCreateMuscleGroup(muscle);
             }
 
-            return base.Create(target);
+            return base.Create(muscle);
         }
 
-        private void Validate(Target target)
+        private void Validate(Muscle muscle)
         {
-            if (target.MuscleGroup == null)
+            if (muscle.MuscleGroup == null)
             {
                 throw new ApplicationException("Must supply MuscleGroup.");
             }
 
-            if (target.MuscleGroup.Id == 0)
+            if (muscle.MuscleGroup.Id == 0)
             {
-                if (string.IsNullOrEmpty(target.MuscleGroup.Name))
+                if (string.IsNullOrEmpty(muscle.MuscleGroup.Name))
                 {
                     throw new ApplicationException("Must supply MuscleGroup name.");
                 }
             }
-            else if (target.MuscleGroup.Id > 0)
+            else if (muscle.MuscleGroup.Id > 0)
             {
                 var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
-                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(target.MuscleGroup.Id);
-                if (!target.MuscleGroup.Name.Equals(muscleGroup.Name))
+                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(muscle.MuscleGroup.Id);
+                if (!muscle.MuscleGroup.Name.Equals(muscleGroup.Name))
                 {
                     throw new ApplicationException("Invalid MuscleGroup supplied.");
                 }
             }
         }
 
-        private void LazyCreateMuscleGroup(Target target)
+        private void LazyCreateMuscleGroup(Muscle muscle)
         {
             var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
             var muscleGroupServiceReader = (IMuscleGroupRepository)muscleGroupService.Reader;
 
-            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(target.MuscleGroup.Name);
+            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(muscle.MuscleGroup.Name);
             if (muscleGroup == null)
             {
-                muscleGroupService.Create(target.MuscleGroup);
+                muscleGroupService.Create(muscle.MuscleGroup);
             }
             else
             {
-                target.MuscleGroup = muscleGroup;
+                muscle.MuscleGroup = muscleGroup;
             }
         }
     }

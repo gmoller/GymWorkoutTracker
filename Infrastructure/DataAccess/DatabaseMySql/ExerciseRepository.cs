@@ -12,7 +12,7 @@ namespace DatabaseMySql
 
         protected override Exercise InstantiateEntityFromReader(MySqlDataReader reader)
         {
-            var targetRepository = new TargetRepository();
+            var muscleRepository = new MuscleRepository();
 
             var entity = new Exercise
             {
@@ -20,7 +20,7 @@ namespace DatabaseMySql
                 ExRxName = reader.GetString(1),
                 AlternateName = reader.GetString(2),
                 Url = reader.GetString(3),
-                Target = targetRepository.Get(reader.GetInt64(4))
+                Muscle = muscleRepository.Get(reader.GetInt64(4))
             };
 
             return entity;
@@ -33,7 +33,7 @@ namespace DatabaseMySql
             command.Parameters.AddWithValue("@exrx_name", e.ExRxName);
             command.Parameters.AddWithValue("@alternate_name", e.AlternateName);
             command.Parameters.AddWithValue("@url", e.Url);
-            command.Parameters.AddWithValue("@muscle_id", e.Target.Id);
+            command.Parameters.AddWithValue("@muscle_id", e.Muscle.Id);
         }
 
         protected override void AddUpdateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
@@ -43,7 +43,7 @@ namespace DatabaseMySql
             command.Parameters.AddWithValue("@exrx_name", e.ExRxName);
             command.Parameters.AddWithValue("@alternate_name", e.AlternateName);
             command.Parameters.AddWithValue("@url", e.Url);
-            command.Parameters.AddWithValue("@muscle_id", e.Target.Id);
+            command.Parameters.AddWithValue("@muscle_id", e.Muscle.Id);
         }
 
         public Exercise GetByAlternateName(string name)

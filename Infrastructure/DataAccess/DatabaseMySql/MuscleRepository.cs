@@ -4,17 +4,17 @@ using MySql.Data.MySqlClient;
 
 namespace DatabaseMySql
 {
-    public class TargetRepository : BaseRepository<Target>, ITargetRepository
+    public class MuscleRepository : BaseRepository<Muscle>, IMuscleRepository
     {
         protected override string TableName { get { return "muscle"; } }
         protected override string IdentifierColumn { get { return "id"; } }
         protected override string[] Columns { get { return new[] { "name", "muscle_group_id" }; } }
 
-        protected override Target InstantiateEntityFromReader(MySqlDataReader reader)
+        protected override Muscle InstantiateEntityFromReader(MySqlDataReader reader)
         {
             var muscleGroupRepository = new MuscleGroupRepository();
 
-            var entity = new Target
+            var entity = new Muscle
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1),
@@ -26,7 +26,7 @@ namespace DatabaseMySql
 
         protected override void AddCreateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
         {
-            var e = (Target)entity;
+            var e = (Muscle)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
             command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
@@ -34,13 +34,13 @@ namespace DatabaseMySql
 
         protected override void AddUpdateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
         {
-            var e = (Target)entity;
+            var e = (Muscle)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
             command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
         }
 
-        public Target GetByName(string name)
+        public Muscle GetByName(string name)
         {
             return GetBy("name", name);
         }

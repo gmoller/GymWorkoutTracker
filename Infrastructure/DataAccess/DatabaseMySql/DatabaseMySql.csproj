@@ -42,7 +42,7 @@
     <Compile Include="ExerciseInstanceRepository.cs" />
     <Compile Include="ExerciseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TargetRepository.cs" />
+    <Compile Include="MuscleRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\DomainModel\DomainModel.csproj">

@@ -36,7 +36,7 @@
     <Compile Include="InMemory\MuscleGroupInMemoryRepository.cs" />
     <Compile Include="InMemory\ExerciseInMemoryRepository.cs" />
     <Compile Include="InMemory\ExerciseInstanceInMemoryRepository.cs" />
-    <Compile Include="InMemory\TargetInMemoryRepository.cs" />
+    <Compile Include="InMemory\MuscleInMemoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

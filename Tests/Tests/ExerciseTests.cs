@@ -14,7 +14,7 @@ namespace Tests
         [TestFixtureSetUp]
         public void Setup()
         {
-            _service = new ExerciseService(GetExerciseRepository(), GetTargetRepository());
+            _service = new ExerciseService(GetExerciseRepository(), GetMuscleRepository());
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace Tests
                     ExRxName = "Barbell Decline Bench Press",
                     AlternateName = "Barbell Decline Bench Press",
                     Url = "http://www.exrx.net/WeightExercises/PectoralSternal/BBDeclineBenchPress.html",
-                    Target = new Target { Name = "Pectoralis Major, Sternal" }
+                    Muscle = new Muscle { Name = "Pectoralis Major, Sternal" }
                 };
 
             IDomainIdentifiable<long> createdExercise = _service.Create(exercise);

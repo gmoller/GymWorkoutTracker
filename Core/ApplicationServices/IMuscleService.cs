@@ -2,7 +2,7 @@
 
 namespace ApplicationServices
 {
-    public interface ITargetService : IBaseService<Target, long>
+    public interface IMuscleService : IBaseService<Muscle, long>
     {
     }
 }
