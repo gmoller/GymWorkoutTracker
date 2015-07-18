@@ -38,7 +38,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BodyPartTests.cs" />
+    <Compile Include="MuscleGroupTests.cs" />
     <Compile Include="ExerciseInstanceTests.cs" />
     <Compile Include="ExerciseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

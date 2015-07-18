@@ -4,6 +4,6 @@
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public BodyPart BodyPart { get; set; }
+        public MuscleGroup MuscleGroup { get; set; }
     }
 }

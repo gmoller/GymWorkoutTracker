@@ -6,12 +6,12 @@ namespace ApplicationServices
 {
     public class TargetService : BaseService<Target, long>, ITargetService
     {
-        private readonly IRepository<BodyPart, long> _bodyPartRepository;
+        private readonly IRepository<MuscleGroup, long> _muscleGroupRepository;
 
-        public TargetService(IRepository<Target, long> repository, IRepository<BodyPart, long> bodyPartRepository)
+        public TargetService(IRepository<Target, long> repository, IRepository<MuscleGroup, long> muscleGroupRepository)
             : base(repository)
         {
-            _bodyPartRepository = bodyPartRepository;
+            _muscleGroupRepository = muscleGroupRepository;
         }
 
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
@@ -19,9 +19,9 @@ namespace ApplicationServices
             var target = (Target)entity;
             Validate(target);
 
-            if (target.BodyPart.Id == 0)
+            if (target.MuscleGroup.Id == 0)
             {
-                LazyCreateBodyPart(target);
+                LazyCreateMuscleGroup(target);
             }
 
             return base.Create(target);
@@ -29,42 +29,42 @@ namespace ApplicationServices
 
         private void Validate(Target target)
         {
-            if (target.BodyPart == null)
+            if (target.MuscleGroup == null)
             {
-                throw new ApplicationException("Must supply BodyPart.");
+                throw new ApplicationException("Must supply MuscleGroup.");
             }
 
-            if (target.BodyPart.Id == 0)
+            if (target.MuscleGroup.Id == 0)
             {
-                if (string.IsNullOrEmpty(target.BodyPart.Name))
+                if (string.IsNullOrEmpty(target.MuscleGroup.Name))
                 {
-                    throw new ApplicationException("Must supply BodyPart name.");
+                    throw new ApplicationException("Must supply MuscleGroup name.");
                 }
             }
-            else if (target.BodyPart.Id > 0)
+            else if (target.MuscleGroup.Id > 0)
             {
-                var bodyPartService = new BodyPartService(_bodyPartRepository);
-                BodyPart bodyPart = bodyPartService.Reader.Get(target.BodyPart.Id);
-                if (!target.BodyPart.Name.Equals(bodyPart.Name))
+                var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
+                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(target.MuscleGroup.Id);
+                if (!target.MuscleGroup.Name.Equals(muscleGroup.Name))
                 {
-                    throw new ApplicationException("Invalid BodyPart supplied.");
+                    throw new ApplicationException("Invalid MuscleGroup supplied.");
                 }
             }
         }
 
-        private void LazyCreateBodyPart(Target target)
+        private void LazyCreateMuscleGroup(Target target)
         {
-            var bodyPartService = new BodyPartService(_bodyPartRepository);
-            var bodyPartServiceReader = (IBodyPartRepository)bodyPartService.Reader;
+            var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
+            var muscleGroupServiceReader = (IMuscleGroupRepository)muscleGroupService.Reader;
 
-            BodyPart bodyPart = bodyPartServiceReader.GetByName(target.BodyPart.Name);
-            if (bodyPart == null)
+            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(target.MuscleGroup.Name);
+            if (muscleGroup == null)
             {
-                bodyPartService.Create(target.BodyPart);
+                muscleGroupService.Create(target.MuscleGroup);
             }
             else
             {
-                target.BodyPart = bodyPart;
+                target.MuscleGroup = muscleGroup;
             }
         }
     }

@@ -37,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
-    <Compile Include="BodyPartRepository.cs" />
+    <Compile Include="MuscleGroupRepository.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="ExerciseInstanceRepository.cs" />
     <Compile Include="ExerciseRepository.cs" />

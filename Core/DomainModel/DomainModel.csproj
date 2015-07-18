@@ -33,7 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BodyPart.cs" />
+    <Compile Include="MuscleGroup.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="ExerciseInstance.cs" />
     <Compile Include="IDomainIdentifiable.cs" />

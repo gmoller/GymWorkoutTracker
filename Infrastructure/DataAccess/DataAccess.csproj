@@ -33,7 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InMemory\BodyPartInMemoryRepository.cs" />
+    <Compile Include="InMemory\MuscleGroupInMemoryRepository.cs" />
     <Compile Include="InMemory\ExerciseInMemoryRepository.cs" />
     <Compile Include="InMemory\ExerciseInstanceInMemoryRepository.cs" />
     <Compile Include="InMemory\TargetInMemoryRepository.cs" />

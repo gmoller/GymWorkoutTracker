@@ -7,20 +7,20 @@ namespace Tests
 {
     public class TestBase
     {
-        protected IBodyPartRepository GetBodyPartRepository()
+        protected IMuscleGroupRepository GetMuscleGroupRepository()
         {
             string repository = ConfigurationManager.AppSettings["Repository"];
 
             switch (repository)
             {
                 case "InMemory":
-                    return new BodyPartInMemoryRepository();
+                    return new MuscleGroupInMemoryRepository();
                 case "MySql":
-                    return new BodyPartRepository();
+                    return new MuscleGroupRepository();
                 case "Oracle":
-                    return new BodyPartRepository();
+                    return new MuscleGroupRepository();
                 default:
-                    return new BodyPartInMemoryRepository();
+                    return new MuscleGroupInMemoryRepository();
             }
         }
 

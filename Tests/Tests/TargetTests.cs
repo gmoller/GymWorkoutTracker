@@ -14,7 +14,7 @@ namespace Tests
         [TestFixtureSetUp]
         public void Setup()
         {
-            _service = new TargetService(GetTargetRepository(), GetBodyPartRepository());
+            _service = new TargetService(GetTargetRepository(), GetMuscleGroupRepository());
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Tests
 
         private IDomainIdentifiable<long> CreateTarget()
         {
-            var target = new Target { Name = "Soleus", BodyPart = new BodyPart { Name = "Calves" } };
+            var target = new Target { Name = "Soleus", MuscleGroup = new MuscleGroup { Name = "Calves" } };
 
             IDomainIdentifiable<long> createdTarget = _service.Create(target);
 

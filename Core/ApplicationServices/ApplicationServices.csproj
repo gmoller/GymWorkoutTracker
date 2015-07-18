@@ -34,10 +34,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
-    <Compile Include="BodyPartService.cs" />
+    <Compile Include="MuscleGroupService.cs" />
     <Compile Include="ExerciseInstanceService.cs" />
     <Compile Include="ExerciseService.cs" />
-    <Compile Include="IBodyPartService.cs" />
+    <Compile Include="IMuscleGroupService.cs" />
     <Compile Include="IExerciseInstanceService.cs" />
     <Compile Include="IExerciseService.cs" />
     <Compile Include="IBaseService.cs" />

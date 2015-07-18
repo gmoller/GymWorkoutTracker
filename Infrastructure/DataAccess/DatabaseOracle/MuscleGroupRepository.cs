@@ -6,11 +6,11 @@ using Oracle.DataAccess.Client;
 
 namespace DatabaseOracle
 {
-    public class BodyPartRepository : IBodyPartRepository
+    public class MuscleGroupRepository : IMuscleGroupRepository
     {
         private readonly DbContext _context = new DbContext();
 
-        public BodyPart Get(long id)
+        public MuscleGroup Get(long id)
         {
             bool newConnection = _context.OpenConnection();
 
@@ -22,7 +22,7 @@ namespace DatabaseOracle
                 command.Prepare();
                 OracleDataReader reader = command.ExecuteReader();
 
-                BodyPart entity = null;
+                MuscleGroup entity = null;
                 while (reader.Read())
                 {
                     entity = InstantiateEntityFromReader(reader);
@@ -45,13 +45,13 @@ namespace DatabaseOracle
             }
         }
 
-        public List<BodyPart> GetAll()
+        public List<MuscleGroup> GetAll()
         {
             bool newConnection = _context.OpenConnection();
 
             try
             {
-                var allEntities = new List<BodyPart>();
+                var allEntities = new List<MuscleGroup>();
 
                 const string sqlFetch = "SELECT id, name FROM muscle_group";
                 var command = new OracleCommand(sqlFetch, _context.DbConnection);
@@ -90,7 +90,7 @@ namespace DatabaseOracle
             const string sqlInsert = "INSERT INTO muscle_group (id, name) VALUES (:id, :name)";
             command = new OracleCommand(sqlInsert, _context.DbConnection);
             AddIdParam(command, entity.Id);
-            AddColumnParams(command, (BodyPart)entity);
+            AddColumnParams(command, (MuscleGroup)entity);
             command.Prepare();
             command.ExecuteNonQuery();
 
@@ -104,7 +104,7 @@ namespace DatabaseOracle
 
             const string sqlUpdate = "UPDATE muscle_group SET name = :name WHERE id = :id";
             var command = new OracleCommand(sqlUpdate, _context.DbConnection);
-            AddColumnParams(command, (BodyPart)entity);
+            AddColumnParams(command, (MuscleGroup)entity);
             AddIdParam(command, entity.Id);
             command.Prepare();
             command.ExecuteNonQuery();
@@ -130,9 +130,9 @@ namespace DatabaseOracle
             _context.CloseConnection();
         }
 
-        private BodyPart InstantiateEntityFromReader(OracleDataReader reader)
+        private MuscleGroup InstantiateEntityFromReader(OracleDataReader reader)
         {
-            var entity = new BodyPart
+            var entity = new MuscleGroup
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1)
@@ -141,7 +141,7 @@ namespace DatabaseOracle
             return entity;
         }
 
-        private void AddColumnParams(OracleCommand command, BodyPart entity)
+        private void AddColumnParams(OracleCommand command, MuscleGroup entity)
         {
             command.Parameters.Add("name", entity.Name);
         }
@@ -151,7 +151,7 @@ namespace DatabaseOracle
             command.Parameters.Add("id", id);
         }
 
-        public BodyPart GetByName(string name)
+        public MuscleGroup GetByName(string name)
         {
             throw new NotImplementedException();
         }

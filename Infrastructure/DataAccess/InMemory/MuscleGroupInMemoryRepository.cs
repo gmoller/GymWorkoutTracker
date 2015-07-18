@@ -6,28 +6,28 @@ using DomainServices;
 
 namespace DataAccess.InMemory
 {
-    public class BodyPartInMemoryRepository : IBodyPartRepository
+    public class MuscleGroupInMemoryRepository : IMuscleGroupRepository
     {
-        private readonly Dictionary<long, BodyPart> _bodyParts = new Dictionary<long, BodyPart>();
+        private readonly Dictionary<long, MuscleGroup> _muscleGroups = new Dictionary<long, MuscleGroup>();
 
         public IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
-            entity.Id = _bodyParts.Count() + 1;
-            _bodyParts.Add(entity.Id, (BodyPart)entity);
+            entity.Id = _muscleGroups.Count() + 1;
+            _muscleGroups.Add(entity.Id, (MuscleGroup)entity);
 
             return entity;
         }
 
         public IDomainIdentifiable<long> Update(IDomainIdentifiable<long> entity)
         {
-            _bodyParts[entity.Id] = (BodyPart)entity;
+            _muscleGroups[entity.Id] = (MuscleGroup)entity;
 
             return entity;
         }
 
         public void Delete(long id)
         {
-            _bodyParts.Remove(id);
+            _muscleGroups.Remove(id);
         }
 
         public void Save()
@@ -35,12 +35,12 @@ namespace DataAccess.InMemory
             // do nothing
         }
 
-        public BodyPart Get(long id)
+        public MuscleGroup Get(long id)
         {
-            BodyPart entity;
+            MuscleGroup entity;
             try
             {
-                entity = _bodyParts[id];
+                entity = _muscleGroups[id];
             }
             catch (KeyNotFoundException)
             {
@@ -50,12 +50,12 @@ namespace DataAccess.InMemory
             return entity;
         }
 
-        public List<BodyPart> GetAll()
+        public List<MuscleGroup> GetAll()
         {
-            return _bodyParts.Select(item => item.Value).ToList();
+            return _muscleGroups.Select(item => item.Value).ToList();
         }
 
-        public BodyPart GetByName(string name)
+        public MuscleGroup GetByName(string name)
         {
             return GetAll().FirstOrDefault(item => item.Name == name);
         }

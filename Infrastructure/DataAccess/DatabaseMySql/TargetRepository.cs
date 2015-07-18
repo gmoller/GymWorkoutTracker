@@ -12,13 +12,13 @@ namespace DatabaseMySql
 
         protected override Target InstantiateEntityFromReader(MySqlDataReader reader)
         {
-            var bodyPartRepository = new BodyPartRepository();
+            var muscleGroupRepository = new MuscleGroupRepository();
 
             var entity = new Target
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1),
-                BodyPart = bodyPartRepository.Get(reader.GetInt64(2))
+                MuscleGroup = muscleGroupRepository.Get(reader.GetInt64(2))
             };
 
             return entity;
@@ -29,7 +29,7 @@ namespace DatabaseMySql
             var e = (Target)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
-            command.Parameters.AddWithValue("@muscle_group_id", e.BodyPart.Id);
+            command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
         }
 
         protected override void AddUpdateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
@@ -37,7 +37,7 @@ namespace DatabaseMySql
             var e = (Target)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
-            command.Parameters.AddWithValue("@muscle_group_id", e.BodyPart.Id);
+            command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
         }
 
         public Target GetByName(string name)
