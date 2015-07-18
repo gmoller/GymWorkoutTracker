@@ -51,6 +51,20 @@ namespace Tests
         }
 
         [Test]
+        [ExpectedException(ExpectedException = typeof(ApplicationException), ExpectedMessage = "Unique key violation.")]
+        public void CreateExistingMuscleGroup()
+        {
+            // Arrange
+
+            // Act
+            IDomainIdentifiable<long> createdMuscleGroup = CreateMuscleGroup("Chest");
+
+            // Assert
+
+            _service.Delete(createdMuscleGroup.Id);
+        }
+
+        [Test]
         public void UpdateExistingMuscleGroup()
         {
             // Arrange
@@ -59,6 +73,7 @@ namespace Tests
 
             // Act
             var updatedMuscleGroup = (MuscleGroup)_service.Update(createdMuscleGroup);
+            updatedMuscleGroup = (MuscleGroup)_service.Update(createdMuscleGroup);
 
             // Assert
             MuscleGroup fetchedMuscleGroup = _service.Reader.Get(createdMuscleGroup.Id);
@@ -81,9 +96,9 @@ namespace Tests
             _service.Reader.Get(createdMuscleGroup.Id);
         }
 
-        private IDomainIdentifiable<long> CreateMuscleGroup()
+        private IDomainIdentifiable<long> CreateMuscleGroup(string name = "Neck")
         {
-            var muscleGroup = new MuscleGroup { Name = "Neck" };
+            var muscleGroup = new MuscleGroup { Name  = name };
 
             IDomainIdentifiable<long> createdMuscleGroup = _service.Create(muscleGroup);
 

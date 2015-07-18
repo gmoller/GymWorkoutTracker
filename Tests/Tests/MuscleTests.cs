@@ -81,9 +81,9 @@ namespace Tests
             _service.Reader.Get(createdMuscle.Id);
         }
 
-        private IDomainIdentifiable<long> CreateMuscle()
+        private IDomainIdentifiable<long> CreateMuscle(string name = "Calves")
         {
-            var muscle = new Muscle { Name = "Soleus", MuscleGroup = new MuscleGroup { Name = "Calves" } };
+            var muscle = new Muscle { Name = "Soleus", BelongsToMuscleGroup = new MuscleGroup { Name = name } };
 
             IDomainIdentifiable<long> createdMuscle = _service.Create(muscle);
 

@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS muscle_group
 (
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
+  date_created TIMESTAMP DEFAULT NOW(),
+  date_modified TIMESTAMP DEFAULT NOW(),
   CONSTRAINT muscle_group_pk PRIMARY KEY (id),
   CONSTRAINT muscle_group_name_uq UNIQUE (name)
 );
@@ -19,6 +21,8 @@ CREATE TABLE IF NOT EXISTS muscle
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   muscle_group_id INT(11) NOT NULL,
+  date_created TIMESTAMP DEFAULT NOW(),
+  date_modified TIMESTAMP DEFAULT NOW(),
   CONSTRAINT muscle_pk PRIMARY KEY (id),
   INDEX muscle_group_id_ix (muscle_group_id),
   CONSTRAINT muscle_group_id_fk FOREIGN KEY muscle_group_id_ix (muscle_group_id) REFERENCES muscle_group (id),
@@ -32,6 +36,8 @@ CREATE TABLE IF NOT EXISTS exercise
   alternate_name VARCHAR(50) NOT NULL,
   url VARCHAR(100) NOT NULL,
   muscle_id INT(11) NOT NULL,
+  date_created TIMESTAMP DEFAULT NOW(),
+  date_modified TIMESTAMP DEFAULT NOW(),
   CONSTRAINT exercise_pk PRIMARY KEY (id),
   INDEX muscle_id_ix (muscle_id),
   CONSTRAINT muscle_id_fk FOREIGN KEY muscle_id_ix (muscle_id) REFERENCES muscle (id),
@@ -47,6 +53,8 @@ CREATE TABLE IF NOT EXISTS exercise_instance
   set_number INT(11) NOT NULL,
   number_of_reps INT(11) NOT NULL,
   weight FLOAT(5,1) NOT NULL,
+  date_created TIMESTAMP DEFAULT NOW(),
+  date_modified TIMESTAMP DEFAULT NOW(),
   CONSTRAINT exercise_instance_pk PRIMARY KEY (id),
   INDEX exercise_id_ix (exercise_id),
   CONSTRAINT exercise_id_fk FOREIGN KEY exercise_id_ix (exercise_id) REFERENCES exercise (id),

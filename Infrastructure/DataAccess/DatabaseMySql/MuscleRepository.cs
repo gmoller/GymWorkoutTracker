@@ -18,7 +18,7 @@ namespace DatabaseMySql
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1),
-                MuscleGroup = muscleGroupRepository.Get(reader.GetInt64(2))
+                BelongsToMuscleGroup = muscleGroupRepository.Get(reader.GetInt64(2))
             };
 
             return entity;
@@ -29,7 +29,7 @@ namespace DatabaseMySql
             var e = (Muscle)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
-            command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
+            command.Parameters.AddWithValue("@muscle_group_id", e.BelongsToMuscleGroup.Id);
         }
 
         protected override void AddUpdateParams(MySqlCommand command, IDomainIdentifiable<long> entity)
@@ -37,7 +37,7 @@ namespace DatabaseMySql
             var e = (Muscle)entity;
 
             command.Parameters.AddWithValue("@name", e.Name);
-            command.Parameters.AddWithValue("@muscle_group_id", e.MuscleGroup.Id);
+            command.Parameters.AddWithValue("@muscle_group_id", e.BelongsToMuscleGroup.Id);
         }
 
         public Muscle GetByName(string name)

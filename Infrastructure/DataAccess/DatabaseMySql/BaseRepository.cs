@@ -100,7 +100,20 @@ namespace DatabaseMySql
             var command = new MySqlCommand(sqlInsert, Context.DbConnection);
             AddCreateParams(command, entity);
             command.Prepare();
-            command.ExecuteNonQuery();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1062)
+                {
+                    throw new ApplicationException("Unique key violation.", ex);
+                }
+                throw;
+            }
+            
+
             entity.Id = command.LastInsertedId;
 
             return entity;
@@ -111,7 +124,7 @@ namespace DatabaseMySql
             Context.OpenConnection();
             Context.BeginTransaction();
 
-            string sqlUpdate = string.Format("UPDATE {0} SET {1} WHERE {2} = @id", TableName, Columns.BuildSetClause(), IdentifierColumn);
+            string sqlUpdate = string.Format("UPDATE {0} SET {1}, date_modified = DEFAULT WHERE {2} = @id", TableName, Columns.BuildSetClause(), IdentifierColumn);
             var command = new MySqlCommand(sqlUpdate, Context.DbConnection);
             AddUpdateParams(command, entity);
             AddIdParam(command, entity.Id);

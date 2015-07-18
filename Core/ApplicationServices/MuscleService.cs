@@ -19,7 +19,7 @@ namespace ApplicationServices
             var muscle = (Muscle)entity;
             Validate(muscle);
 
-            if (muscle.MuscleGroup.Id == 0)
+            if (muscle.BelongsToMuscleGroup.Id == 0)
             {
                 LazyCreateMuscleGroup(muscle);
             }
@@ -29,23 +29,23 @@ namespace ApplicationServices
 
         private void Validate(Muscle muscle)
         {
-            if (muscle.MuscleGroup == null)
+            if (muscle.BelongsToMuscleGroup == null)
             {
                 throw new ApplicationException("Must supply MuscleGroup.");
             }
 
-            if (muscle.MuscleGroup.Id == 0)
+            if (muscle.BelongsToMuscleGroup.Id == 0)
             {
-                if (string.IsNullOrEmpty(muscle.MuscleGroup.Name))
+                if (string.IsNullOrEmpty(muscle.BelongsToMuscleGroup.Name))
                 {
                     throw new ApplicationException("Must supply MuscleGroup name.");
                 }
             }
-            else if (muscle.MuscleGroup.Id > 0)
+            else if (muscle.BelongsToMuscleGroup.Id > 0)
             {
                 var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
-                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(muscle.MuscleGroup.Id);
-                if (!muscle.MuscleGroup.Name.Equals(muscleGroup.Name))
+                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(muscle.BelongsToMuscleGroup.Id);
+                if (!muscle.BelongsToMuscleGroup.Name.Equals(muscleGroup.Name))
                 {
                     throw new ApplicationException("Invalid MuscleGroup supplied.");
                 }
@@ -57,14 +57,14 @@ namespace ApplicationServices
             var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
             var muscleGroupServiceReader = (IMuscleGroupRepository)muscleGroupService.Reader;
 
-            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(muscle.MuscleGroup.Name);
+            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(muscle.BelongsToMuscleGroup.Name);
             if (muscleGroup == null)
             {
-                muscleGroupService.Create(muscle.MuscleGroup);
+                muscleGroupService.Create(muscle.BelongsToMuscleGroup);
             }
             else
             {
-                muscle.MuscleGroup = muscleGroup;
+                muscle.BelongsToMuscleGroup = muscleGroup;
             }
         }
     }

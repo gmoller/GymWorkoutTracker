@@ -88,7 +88,7 @@ namespace Tests
                     ExRxName = "Barbell Decline Bench Press",
                     AlternateName = "Barbell Decline Bench Press",
                     Url = "http://www.exrx.net/WeightExercises/PectoralSternal/BBDeclineBenchPress.html",
-                    Muscle = new Muscle { Name = "Pectoralis Major, Sternal" }
+                    TargetsMuscle = new Muscle { Name = "Pectoralis Major, Sternal" }
                 };
 
             IDomainIdentifiable<long> createdExercise = _service.Create(exercise);
