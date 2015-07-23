@@ -98,7 +98,7 @@ namespace Tests
 
         private IDomainIdentifiable<long> CreateMuscleGroup(string name = "Neck")
         {
-            var muscleGroup = new MuscleGroup { Name  = name };
+            var muscleGroup = new MuscleGroup(name);
 
             IDomainIdentifiable<long> createdMuscleGroup = _service.Create(muscleGroup);
 

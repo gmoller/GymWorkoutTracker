@@ -14,10 +14,9 @@ namespace DatabaseMySql
         {
             var muscleGroupRepository = new MuscleGroupRepository();
 
-            var entity = new Muscle
+            var entity = new Muscle(reader.GetString(1))
             {
                 Id = reader.GetInt64(0),
-                Name = reader.GetString(1),
                 BelongsToMuscleGroup = muscleGroupRepository.Get(reader.GetInt64(2))
             };
 

@@ -1,5 +1,4 @@
-﻿using System;
-using DomainModel;
+﻿using DomainModel;
 using DomainServices;
 
 namespace ApplicationServices
@@ -17,7 +16,7 @@ namespace ApplicationServices
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
             var exerciseInstance = (ExerciseInstance)entity;
-            Validate(exerciseInstance);
+            exerciseInstance.Validate();
 
             if (exerciseInstance.Exercise.Id == 0)
             {
@@ -25,31 +24,6 @@ namespace ApplicationServices
             }
 
             return base.Create(exerciseInstance);
-        }
-
-        private void Validate(ExerciseInstance exerciseInstance)
-        {
-            if (exerciseInstance.Exercise == null)
-            {
-                throw new ApplicationException("Must supply Exercise.");
-            }
-
-            if (exerciseInstance.Exercise.Id == 0)
-            {
-                if (string.IsNullOrEmpty(exerciseInstance.Exercise.AlternateName))
-                {
-                    throw new ApplicationException("Must supply Exercise alternate name.");
-                }
-            }
-            else if (exerciseInstance.Exercise.Id > 0)
-            {
-                var exerciseService = new ExerciseService(_exerciseRepository, null);
-                Exercise exercise = exerciseService.Reader.Get(exerciseInstance.Exercise.Id);
-                if (!exerciseInstance.Exercise.AlternateName.Equals(exercise.AlternateName))
-                {
-                    throw new ApplicationException("Invalid Exercise supplied.");
-                }
-            }
         }
 
         private void LazyCreateExercise(ExerciseInstance exerciseInstance)

@@ -38,7 +38,7 @@ namespace ApplicationServices
             {
                 if (string.IsNullOrEmpty(muscle.BelongsToMuscleGroup.Name))
                 {
-                    throw new ApplicationException("Must supply MuscleGroup name.");
+                    throw new ApplicationException("Must supply BelongsToMuscleGroup.Name.");
                 }
             }
             else if (muscle.BelongsToMuscleGroup.Id > 0)

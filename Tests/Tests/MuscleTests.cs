@@ -83,7 +83,7 @@ namespace Tests
 
         private IDomainIdentifiable<long> CreateMuscle(string name = "Calves")
         {
-            var muscle = new Muscle { Name = "Soleus", BelongsToMuscleGroup = new MuscleGroup { Name = name } };
+            var muscle = new Muscle("Soleus") { BelongsToMuscleGroup = new MuscleGroup(name) };
 
             IDomainIdentifiable<long> createdMuscle = _service.Create(muscle);
 

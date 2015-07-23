@@ -86,14 +86,7 @@ namespace Tests
 
         private IDomainIdentifiable<long> CreateExerciseInstance()
         {
-            var exerciseInstance = new ExerciseInstance
-            {
-                Date = DateTime.Now,
-                Exercise = new Exercise { ExRxName = "Barbell Bench Press", AlternateName = "Barbell Flat Bench Press" },
-                Set = 1,
-                Reps = 6,
-                Weight = 100
-            };
+            var exerciseInstance = new ExerciseInstance(DateTime.Now, new Exercise("Barbell Bench Press", "Barbell Flat Bench Press"), 1, 6, 100);
 
             IDomainIdentifiable<long> createdExerciseInstance = _service.Create(exerciseInstance);
 

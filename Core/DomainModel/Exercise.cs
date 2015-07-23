@@ -7,5 +7,11 @@
         public string AlternateName { get; set; }
         public string Url { get; set; }
         public Muscle TargetsMuscle { get; set; }
+
+        public Exercise(string exRxName, string alternateName)
+        {
+            ExRxName = exRxName;
+            AlternateName = alternateName;
+        }
     }
 }

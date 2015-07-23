@@ -83,12 +83,10 @@ namespace Tests
 
         private IDomainIdentifiable<long> CreateExercise()
         {
-            var exercise = new Exercise
+            var exercise = new Exercise("Barbell Decline Bench Press", "Barbell Decline Bench Press")
                 {
-                    ExRxName = "Barbell Decline Bench Press",
-                    AlternateName = "Barbell Decline Bench Press",
                     Url = "http://www.exrx.net/WeightExercises/PectoralSternal/BBDeclineBenchPress.html",
-                    TargetsMuscle = new Muscle { Name = "Pectoralis Major, Sternal" }
+                    TargetsMuscle = new Muscle("Pectoralis Major, Sternal")
                 };
 
             IDomainIdentifiable<long> createdExercise = _service.Create(exercise);

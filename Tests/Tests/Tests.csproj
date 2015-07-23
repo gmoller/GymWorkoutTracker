@@ -38,6 +38,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImportTests.cs" />
     <Compile Include="MuscleGroupTests.cs" />
     <Compile Include="ExerciseInstanceTests.cs" />
     <Compile Include="ExerciseTests.cs" />

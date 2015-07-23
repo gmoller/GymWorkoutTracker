@@ -132,10 +132,9 @@ namespace DatabaseOracle
 
         private MuscleGroup InstantiateEntityFromReader(OracleDataReader reader)
         {
-            var entity = new MuscleGroup
+            var entity = new MuscleGroup(reader.GetString(1))
             {
-                Id = reader.GetInt64(0),
-                Name = reader.GetString(1)
+                Id = reader.GetInt64(0)
             };
 
             return entity;

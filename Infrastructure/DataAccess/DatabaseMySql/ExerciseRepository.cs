@@ -14,11 +14,9 @@ namespace DatabaseMySql
         {
             var muscleRepository = new MuscleRepository();
 
-            var entity = new Exercise
+            var entity = new Exercise(reader.GetString(1), reader.GetString(2))
             {
                 Id = reader.GetInt64(0),
-                ExRxName = reader.GetString(1),
-                AlternateName = reader.GetString(2),
                 Url = reader.GetString(3),
                 TargetsMuscle = muscleRepository.Get(reader.GetInt64(4))
             };

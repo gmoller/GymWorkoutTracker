@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityBase.cs" />
     <Compile Include="MuscleGroup.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="ExerciseInstance.cs" />

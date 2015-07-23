@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using System;
+using DomainModel;
 using DomainServices;
 using MySql.Data.MySqlClient;
 
@@ -14,14 +15,9 @@ namespace DatabaseMySql
         {
             var exerciseRepository = new ExerciseRepository();
 
-            var entity = new ExerciseInstance
+            var entity = new ExerciseInstance(reader.GetDateTime(1), exerciseRepository.Get(reader.GetInt64(2)), reader.GetInt32(3), reader.GetInt32(4), reader.GetFloat(5))
             {
                 Id = reader.GetInt64(0),
-                Date = reader.GetDateTime(1),
-                Exercise = exerciseRepository.Get(reader.GetInt64(2)),
-                Set = reader.GetInt32(3),
-                Reps = reader.GetInt32(4),
-                Weight = reader.GetFloat(5),
             };
 
             return entity;
@@ -47,6 +43,11 @@ namespace DatabaseMySql
             command.Parameters.AddWithValue("@set_number", e.Set);
             command.Parameters.AddWithValue("@number_of_reps", e.Reps);
             command.Parameters.AddWithValue("@weight", e.Weight);
+        }
+
+        public ExerciseInstance GetByDateTime(DateTime dateTime)
+        {
+            return GetBy("date", dateTime);
         }
     }
 }

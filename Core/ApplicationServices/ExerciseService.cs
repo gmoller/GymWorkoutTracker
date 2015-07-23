@@ -38,7 +38,7 @@ namespace ApplicationServices
             {
                 if (string.IsNullOrEmpty(exercise.TargetsMuscle.Name))
                 {
-                    throw new ApplicationException("Must supply Muscle name.");
+                    throw new ApplicationException("Must supply TargetsMuscle.Name.");
                 }
             }
             else if (exercise.TargetsMuscle.Id > 0)

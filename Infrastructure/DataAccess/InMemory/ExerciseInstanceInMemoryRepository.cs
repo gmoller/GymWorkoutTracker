@@ -54,5 +54,10 @@ namespace DataAccess.InMemory
         {
             return _exerciseInstances.Select(item => item.Value).ToList();
         }
+
+        public ExerciseInstance GetByDateTime(DateTime dateTime)
+        {
+            return GetAll().FirstOrDefault(item => item.Date == dateTime);
+        }
     }
 }
