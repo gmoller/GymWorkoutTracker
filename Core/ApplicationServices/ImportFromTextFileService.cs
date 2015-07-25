@@ -36,9 +36,8 @@ namespace ApplicationServices
 
         private void CreateExerciseInstance(DateTime date, string exerciseName, int set, int reps, float weight)
         {
-            var service = new ExerciseInstanceService(_exerciseInstanceRepository, _exerciseRepository);
-            var exerciseInstanceServiceReader = (IExerciseInstanceRepository)service.Reader;
-            ExerciseInstance exerciseInstance = exerciseInstanceServiceReader.GetByDateTime(date);
+            IExerciseInstanceService service = new ExerciseInstanceService(_exerciseInstanceRepository, _exerciseRepository);
+            ExerciseInstance exerciseInstance = service.GetByDateTime(date);
             if (exerciseInstance == null)
             {
                 exerciseInstance = new ExerciseInstance(date, new Exercise("", exerciseName), set, reps, weight);

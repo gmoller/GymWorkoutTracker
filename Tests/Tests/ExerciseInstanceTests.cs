@@ -21,12 +21,12 @@ namespace Tests
         public void GetAllExerciseInstances()
         {
             // Arrange
-            List<ExerciseInstance> exerciseInstances = _service.Reader.GetAll();
+            List<ExerciseInstance> exerciseInstances = _service.GetAll();
             int count = exerciseInstances.Count;
             IDomainIdentifiable<long> createdExerciseInstance = CreateExerciseInstance();
 
             // Act
-            exerciseInstances = _service.Reader.GetAll();
+            exerciseInstances = _service.GetAll();
 
             // Assert
             Assert.AreEqual(count + 1, exerciseInstances.Count);
@@ -43,7 +43,7 @@ namespace Tests
             IDomainIdentifiable<long> createdExerciseInstance = CreateExerciseInstance();
 
             // Assert
-            ExerciseInstance fetchedExerciseInstance = _service.Reader.Get(createdExerciseInstance.Id);
+            ExerciseInstance fetchedExerciseInstance = _service.GetById(createdExerciseInstance.Id);
             Assert.AreEqual(fetchedExerciseInstance.Id, createdExerciseInstance.Id);
             Assert.AreEqual(fetchedExerciseInstance.Exercise.ExRxName, "Barbell Bench Press");
             Assert.AreEqual(fetchedExerciseInstance.Set, 1);
@@ -64,7 +64,7 @@ namespace Tests
             var updatedExerciseInstance = (ExerciseInstance)_service.Update(createdExerciseInstance);
 
             // Assert
-            ExerciseInstance fetchedExerciseInstance = _service.Reader.Get(createdExerciseInstance.Id);
+            ExerciseInstance fetchedExerciseInstance = _service.GetById(createdExerciseInstance.Id);
             Assert.AreEqual(fetchedExerciseInstance.Weight, updatedExerciseInstance.Weight);
 
             _service.Delete(createdExerciseInstance.Id);
@@ -81,7 +81,7 @@ namespace Tests
             _service.Delete(createdExerciseInstance.Id);
 
             // Assert
-            _service.Reader.Get(createdExerciseInstance.Id);
+            _service.GetById(createdExerciseInstance.Id);
         }
 
         private IDomainIdentifiable<long> CreateExerciseInstance()

@@ -21,12 +21,12 @@ namespace Tests
         public void GetAllMuscles()
         {
             // Arrange
-            List<Muscle> muscles = _service.Reader.GetAll();
+            List<Muscle> muscles = _service.GetAll();
             int count = muscles.Count;
             IDomainIdentifiable<long> createdMuscle = CreateMuscle();
 
             // Act
-            muscles = _service.Reader.GetAll();
+            muscles = _service.GetAll();
 
             // Assert
             Assert.AreEqual(count + 1, muscles.Count);
@@ -43,7 +43,7 @@ namespace Tests
             IDomainIdentifiable<long> createdMuscle = CreateMuscle();
 
             // Assert
-            Muscle fetchedMuscle = _service.Reader.Get(createdMuscle.Id);
+            Muscle fetchedMuscle = _service.GetById(createdMuscle.Id);
             Assert.AreEqual(fetchedMuscle.Id, createdMuscle.Id);
             Assert.AreEqual(fetchedMuscle.Name, "Soleus");
 
@@ -61,7 +61,7 @@ namespace Tests
             var updatedMuscle = (Muscle)_service.Update(createdMuscle);
 
             // Assert
-            Muscle fetchedMuscle = _service.Reader.Get(createdMuscle.Id);
+            Muscle fetchedMuscle = _service.GetById(createdMuscle.Id);
             Assert.AreEqual(fetchedMuscle.Name, updatedMuscle.Name);
 
             _service.Delete(createdMuscle.Id);
@@ -78,7 +78,7 @@ namespace Tests
             _service.Delete(createdMuscle.Id);
 
             // Assert
-            _service.Reader.Get(createdMuscle.Id);
+            _service.GetById(createdMuscle.Id);
         }
 
         private IDomainIdentifiable<long> CreateMuscle(string name = "Calves")

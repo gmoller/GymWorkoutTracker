@@ -41,7 +41,7 @@ namespace DatabaseMySql
 
         public Muscle GetByName(string name)
         {
-            return GetBy("name", name);
+            return GetSingleBy("name", name);
         }
     }
 }

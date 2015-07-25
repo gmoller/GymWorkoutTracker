@@ -9,5 +9,10 @@ namespace ApplicationServices
             : base(repository)
         {
         }
+
+        public MuscleGroup GetByName(string name)
+        {
+            return ((IMuscleGroupRepository)Repository).GetByName(name);
+        }
     }
 }

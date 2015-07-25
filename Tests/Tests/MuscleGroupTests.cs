@@ -21,12 +21,12 @@ namespace Tests
         public void GetAllMuscleGroups()
         {
             // Arrange
-            List<MuscleGroup> muscleGroups = _service.Reader.GetAll();
+            List<MuscleGroup> muscleGroups = _service.GetAll();
             int count = muscleGroups.Count;
             IDomainIdentifiable<long> createdMuscleGroup = CreateMuscleGroup();
 
             // Act
-            muscleGroups = _service.Reader.GetAll();
+            muscleGroups = _service.GetAll();
 
             // Assert
             Assert.AreEqual(count + 1, muscleGroups.Count);
@@ -43,7 +43,7 @@ namespace Tests
             IDomainIdentifiable<long> createdMuscleGroup = CreateMuscleGroup();
 
             // Assert
-            MuscleGroup fetchedMuscleGroup = _service.Reader.Get(createdMuscleGroup.Id);
+            MuscleGroup fetchedMuscleGroup = _service.GetById(createdMuscleGroup.Id);
             Assert.AreEqual(fetchedMuscleGroup.Id, createdMuscleGroup.Id);
             Assert.AreEqual(fetchedMuscleGroup.Name, "Neck");
 
@@ -73,10 +73,9 @@ namespace Tests
 
             // Act
             var updatedMuscleGroup = (MuscleGroup)_service.Update(createdMuscleGroup);
-            updatedMuscleGroup = (MuscleGroup)_service.Update(createdMuscleGroup);
 
             // Assert
-            MuscleGroup fetchedMuscleGroup = _service.Reader.Get(createdMuscleGroup.Id);
+            MuscleGroup fetchedMuscleGroup = _service.GetById(createdMuscleGroup.Id);
             Assert.AreEqual(fetchedMuscleGroup.Name, updatedMuscleGroup.Name);
 
             _service.Delete(createdMuscleGroup.Id);
@@ -93,7 +92,7 @@ namespace Tests
             _service.Delete(createdMuscleGroup.Id);
 
             // Assert
-            _service.Reader.Get(createdMuscleGroup.Id);
+            _service.GetById(createdMuscleGroup.Id);
         }
 
         private IDomainIdentifiable<long> CreateMuscleGroup(string name = "Neck")

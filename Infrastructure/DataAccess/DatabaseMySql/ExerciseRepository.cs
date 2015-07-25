@@ -46,7 +46,7 @@ namespace DatabaseMySql
 
         public Exercise GetByAlternateName(string name)
         {
-            return GetBy("alternate_name", name);
+            return GetSingleBy("alternate_name", name);
         }
     }
 }

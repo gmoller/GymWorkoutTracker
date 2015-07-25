@@ -14,6 +14,11 @@ namespace ApplicationServices
             _muscleGroupRepository = muscleGroupRepository;
         }
 
+        public Muscle GetByName(string name)
+        {
+            return ((IMuscleRepository)Repository).GetByName(name);
+        }
+
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
             var muscle = (Muscle)entity;
@@ -44,7 +49,7 @@ namespace ApplicationServices
             else if (muscle.BelongsToMuscleGroup.Id > 0)
             {
                 var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
-                MuscleGroup muscleGroup = muscleGroupService.Reader.Get(muscle.BelongsToMuscleGroup.Id);
+                MuscleGroup muscleGroup = muscleGroupService.GetById(muscle.BelongsToMuscleGroup.Id);
                 if (!muscle.BelongsToMuscleGroup.Name.Equals(muscleGroup.Name))
                 {
                     throw new ApplicationException("Invalid MuscleGroup supplied.");
@@ -54,10 +59,8 @@ namespace ApplicationServices
 
         private void LazyCreateMuscleGroup(Muscle muscle)
         {
-            var muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
-            var muscleGroupServiceReader = (IMuscleGroupRepository)muscleGroupService.Reader;
-
-            MuscleGroup muscleGroup = muscleGroupServiceReader.GetByName(muscle.BelongsToMuscleGroup.Name);
+            IMuscleGroupService muscleGroupService = new MuscleGroupService(_muscleGroupRepository);
+            MuscleGroup muscleGroup = muscleGroupService.GetByName(muscle.BelongsToMuscleGroup.Name);
             if (muscleGroup == null)
             {
                 muscleGroupService.Create(muscle.BelongsToMuscleGroup);

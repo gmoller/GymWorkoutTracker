@@ -36,7 +36,6 @@
     <Compile Include="IMuscleGroupRepository.cs" />
     <Compile Include="IExerciseInstanceRepository.cs" />
     <Compile Include="IExerciseRepository.cs" />
-    <Compile Include="IReader.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IMuscleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

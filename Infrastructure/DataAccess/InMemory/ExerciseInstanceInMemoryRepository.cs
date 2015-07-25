@@ -59,5 +59,10 @@ namespace DataAccess.InMemory
         {
             return GetAll().FirstOrDefault(item => item.Date == dateTime);
         }
+
+        public List<ExerciseInstance> GetByDates(DateTime fromDate, DateTime toDate)
+        {
+            return GetAll().Where(item => (item.Date >= fromDate && item.Date <= toDate)).ToList();
+        }
     }
 }

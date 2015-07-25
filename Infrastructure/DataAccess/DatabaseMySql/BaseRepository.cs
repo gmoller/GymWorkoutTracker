@@ -20,67 +20,76 @@ namespace DatabaseMySql
 
         public T Get(long id)
         {
-            return GetBy(IdentifierColumn, id, true);
+            return GetSingleBy(IdentifierColumn, id, true);
         }
 
-        public T GetBy<T2>(string columnName, T2 value, bool throwExceptionIfNotfound = false)
+        public T GetSingleBy<T2>(string columnName, T2 value, bool throwExceptionIfNotfound = false)
+        {
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} = @value1", IdentifierColumn, Columns.Join(","), TableName, columnName);
+
+            List<T> list = GetList(sqlFetch, new List<T2> { value }, throwExceptionIfNotfound);
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+
+            return default(T);
+        }
+
+        public List<T> GetListBy<T2>(string columnName, T2 value, bool throwExceptionIfNotfound = false)
+        {
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} = @value1", IdentifierColumn, Columns.Join(","), TableName, columnName);
+
+            return GetList(sqlFetch, new List<T2> { value }, throwExceptionIfNotfound);
+        }
+
+        public List<T> GetListBetween<T2>(string columnName, T2 from, T2 to, bool throwExceptionIfNotfound = false)
+        {
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} BETWEEN @value1 AND @value2", IdentifierColumn, Columns.Join(","), TableName, columnName);
+
+            return GetList(sqlFetch, new List<T2> { from, to }, throwExceptionIfNotfound);
+        }
+
+        public List<T> GetAll()
+        {
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2}", IdentifierColumn, Columns.Join(","), TableName);
+
+            return GetList(sqlFetch, new List<T>());
+        }
+
+        public List<T> GetList<T2>(string sqlFetch, List<T2> parameters , bool throwExceptionIfNotfound = false)
         {
             bool newConnection = Context.OpenConnection();
 
             try
             {
-                string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} = @value", IdentifierColumn, Columns.Join(","), TableName, columnName);
                 var command = new MySqlCommand(sqlFetch, Context.DbConnection);
-                command.Parameters.AddWithValue("@value", value);
+                int i = 0;
+                foreach (T2 item in parameters)
+                {
+                    i++;
+                    command.Parameters.AddWithValue(string.Format("@value{0}", i), item);
+                }
                 command.Prepare();
                 MySqlDataReader reader = command.ExecuteReader();
 
-                T entity = default(T);
+                var entityList = new List<T>();
                 while (reader.Read())
                 {
-                    entity = InstantiateEntityFromReader(reader);
+                    T entity = InstantiateEntityFromReader(reader);
+                    entityList.Add(entity);
                 }
                 reader.Close();
 
                 if (throwExceptionIfNotfound)
                 {
-                    if (entity == null)
+                    if (entityList.Count == 0)
                     {
                         throw new ApplicationException("Data not found.");
                     }
                 }
 
-                return entity;
-            }
-            finally
-            {
-                if (newConnection)
-                {
-                    Context.CloseConnection();
-                }
-            }
-        }
-
-        public List<T> GetAll()
-        {
-            bool newConnection = Context.OpenConnection();
-
-            try
-            {
-                var allEntities = new List<T>();
-
-                string sqlFetch = string.Format("SELECT {0},{1} FROM {2}", IdentifierColumn, Columns.Join(","), TableName);
-                var command = new MySqlCommand(sqlFetch, Context.DbConnection);
-                MySqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    var entity = InstantiateEntityFromReader(reader);
-                    allEntities.Add(entity);
-                }
-                reader.Close();
-
-                return allEntities;
+                return entityList;
             }
             finally
             {

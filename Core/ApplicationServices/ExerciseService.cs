@@ -14,6 +14,11 @@ namespace ApplicationServices
             _muscleRepository = muscleRepository;
         }
 
+        public Exercise GetByAlternateName(string alternameName)
+        {
+            return ((IExerciseRepository)Repository).GetByAlternateName(alternameName);
+        }
+
         public override IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
         {
             var exercise = (Exercise)entity;
@@ -44,7 +49,7 @@ namespace ApplicationServices
             else if (exercise.TargetsMuscle.Id > 0)
             {
                 var muscleService = new MuscleService(_muscleRepository, null);
-                Muscle muscle = muscleService.Reader.Get(exercise.TargetsMuscle.Id);
+                Muscle muscle = muscleService.GetById(exercise.TargetsMuscle.Id);
                 if (!exercise.TargetsMuscle.Name.Equals(muscle.Name))
                 {
                     throw new ApplicationException("Invalid Muscle supplied.");
@@ -54,10 +59,8 @@ namespace ApplicationServices
 
         private void LazyCreateMuscle(Exercise exercise)
         {
-            var muscleService = new MuscleService(_muscleRepository, null);
-            var muscleServiceReader = (IMuscleRepository)muscleService.Reader;
-
-            Muscle muscle = muscleServiceReader.GetByName(exercise.TargetsMuscle.Name);
+            IMuscleService muscleService = new MuscleService(_muscleRepository, null);
+            Muscle muscle = muscleService.GetByName(exercise.TargetsMuscle.Name);
             if (muscle == null)
             {
                 muscleService.Create(exercise.TargetsMuscle);

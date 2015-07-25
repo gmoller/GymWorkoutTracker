@@ -1,11 +1,14 @@
-﻿using DomainModel;
+﻿using System.Collections.Generic;
+using DomainModel;
 
 namespace DomainServices
 {
-    public interface IRepository<TEntity, TKey> : IReader<TEntity, TKey> where TEntity : class, IDomainIdentifiable<TKey>
+    public interface IRepository<TEntity, TKey>
     {
-        IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity);
-        IDomainIdentifiable<long> Update(IDomainIdentifiable<long> entity);
+        TEntity Get(TKey id);
+        List<TEntity> GetAll();
+        IDomainIdentifiable<TKey> Create(IDomainIdentifiable<TKey> entity);
+        IDomainIdentifiable<TKey> Update(IDomainIdentifiable<TKey> entity);
         void Delete(TKey id);
         void Save();
     }

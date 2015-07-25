@@ -1,23 +1,29 @@
-﻿using DomainModel;
+﻿using System.Collections.Generic;
+using DomainModel;
 using DomainServices;
 
 namespace ApplicationServices
 {
     public abstract class BaseService<TEntity, TKey> where TEntity : class, IDomainIdentifiable<TKey>
     {
-        private IRepository<TEntity, TKey> Repository { get; set; }
-
-        public IReader<TEntity, TKey> Reader
-        {
-            get { return Repository; }
-        }
+        protected IRepository<TEntity, TKey> Repository { get; set; }
 
         protected BaseService(IRepository<TEntity, TKey> repository)
         {
             Repository = repository;
         }
 
-        public virtual IDomainIdentifiable<long> Create(IDomainIdentifiable<long> entity)
+        public virtual List<TEntity> GetAll()
+        {
+            return Repository.GetAll();
+        }
+
+        public virtual TEntity GetById(TKey id)
+        {
+            return Repository.Get(id);
+        }
+
+        public virtual IDomainIdentifiable<TKey> Create(IDomainIdentifiable<TKey> entity)
         {
             entity = Repository.Create(entity);
             Repository.Save();
@@ -25,7 +31,7 @@ namespace ApplicationServices
             return entity;
         }
 
-        public virtual IDomainIdentifiable<long> Update(IDomainIdentifiable<long> entity)
+        public virtual IDomainIdentifiable<TKey> Update(IDomainIdentifiable<TKey> entity)
         {
             Repository.Update(entity);
             Repository.Save();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DomainModel;
 using DomainServices;
 using MySql.Data.MySqlClient;
@@ -47,7 +48,12 @@ namespace DatabaseMySql
 
         public ExerciseInstance GetByDateTime(DateTime dateTime)
         {
-            return GetBy("date", dateTime);
+            return GetSingleBy("date", dateTime);
+        }
+
+        public List<ExerciseInstance> GetByDates(DateTime fromDate, DateTime toDate)
+        {
+            return GetListBetween("date", fromDate, toDate);
         }
     }
 }
