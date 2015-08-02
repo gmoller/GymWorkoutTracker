@@ -38,26 +38,26 @@ namespace DatabaseMySql
 
         public List<T> GetListBy<T2>(string columnName, T2 value, bool throwExceptionIfNotfound = false)
         {
-            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} = @value1", IdentifierColumn, Columns.Join(","), TableName, columnName);
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} = @value1  ORDER BY {0}", IdentifierColumn, Columns.Join(","), TableName, columnName);
 
             return GetList(sqlFetch, new List<T2> { value }, throwExceptionIfNotfound);
         }
 
         public List<T> GetListBetween<T2>(string columnName, T2 from, T2 to, bool throwExceptionIfNotfound = false)
         {
-            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} BETWEEN @value1 AND @value2", IdentifierColumn, Columns.Join(","), TableName, columnName);
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} WHERE {3} BETWEEN @value1 AND @value2  ORDER BY {0}", IdentifierColumn, Columns.Join(","), TableName, columnName);
 
             return GetList(sqlFetch, new List<T2> { from, to }, throwExceptionIfNotfound);
         }
 
         public List<T> GetAll()
         {
-            string sqlFetch = string.Format("SELECT {0},{1} FROM {2}", IdentifierColumn, Columns.Join(","), TableName);
+            string sqlFetch = string.Format("SELECT {0},{1} FROM {2} ORDER BY {0}", IdentifierColumn, Columns.Join(","), TableName);
 
             return GetList(sqlFetch, new List<T>());
         }
 
-        public List<T> GetList<T2>(string sqlFetch, List<T2> parameters , bool throwExceptionIfNotfound = false)
+        private List<T> GetList<T2>(string sqlFetch, IEnumerable<T2> parameters , bool throwExceptionIfNotfound = false)
         {
             bool newConnection = Context.OpenConnection();
 

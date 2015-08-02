@@ -17,7 +17,7 @@ namespace Tests
         [Test]
         public void SimpleImport2()
         {
-            _service.Import(@"C:\Users\Greg\Downloads\GymFrame (2).csv");
+            _service.Import(@"C:\Users\Greg\Downloads\GymFrame.csv");
         }
     }
 }

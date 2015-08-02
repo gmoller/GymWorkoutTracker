@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6C08571D-A06C-4008-98DB-87A578A3DF90}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Charts</RootNamespace>
+    <AssemblyName>Charts</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Gui\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartControl.Designer.cs">
+      <DependentUpon>ChartControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartData.cs" />
+    <Compile Include="ChartsPlugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\ApplicationServices\ApplicationServices.csproj">
+      <Project>{06e93820-1a09-44e5-b0a6-01061dfbedaa}</Project>
+      <Name>ApplicationServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\DomainModel\DomainModel.csproj">
+      <Project>{056d5ef0-3083-46e6-93c5-9b901aa8af48}</Project>
+      <Name>DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\DomainServices\DomainServices.csproj">
+      <Project>{14b482d4-2e46-4645-bfa4-851dd45b57dd}</Project>
+      <Name>DomainServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HostCommon\HostCommon.csproj">
+      <Project>{c6fe456c-4727-4761-b7db-572a8f3cc0b5}</Project>
+      <Name>HostCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\DataAccess\DatabaseMySql\DatabaseMySql.csproj">
+      <Project>{ceab7961-4742-43ba-ae91-7302c75f4995}</Project>
+      <Name>DatabaseMySql</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
