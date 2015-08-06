@@ -4,12 +4,12 @@ using HostCommon;
 
 namespace Gui
 {
-    public class DataTreeNode : TreeNode
+    public class BranchTreeNode : TreeNode
     {
         private readonly IPluginData _data;
         public IPluginData Data { get { return _data; } }
 
-        public DataTreeNode(IPluginData data)
+        public BranchTreeNode(IPluginData data)
         {
             _data = data;
             Text = _data.ToString();

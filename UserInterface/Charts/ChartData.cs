@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using DomainModel;
 using HostCommon;
 
@@ -8,28 +10,18 @@ namespace Charts
     {
         public event EventHandler DataChanged;
 
-        internal ChartData(Exercise exercise)
+        internal ChartData(IDomainIdentifiable<long> parent, List<ChartData> children)
         {
-            Exercise = exercise;
+            Parent = parent;
+            Children = children == null ? null : children.ToArray();
         }
 
-        public MuscleGroup MuscleGroup { get; private set; }
-        public Exercise Exercise { get; private set; }
+        public IDomainIdentifiable<long> Parent { get; private set; }
+        public IPluginData[] Children { get; set; }
 
         public override string ToString()
         {
-            return Exercise.ExRxName;
-        }
-
-
-        public IPluginData[] Children
-        {
-            get { return null; }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return Parent.Name;
         }
     }
 }

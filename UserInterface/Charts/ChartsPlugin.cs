@@ -13,14 +13,38 @@ namespace Charts
     {
         public IPluginData[] GetData()
         {
+            IEnumerable<Muscle> allMuscles = GetMuscles();
             IEnumerable<Exercise> allExercises = GetExercises();
 
-            return allExercises.Select(exercise => new ChartData(exercise)).ToArray();
+            var muscles = new List<ChartData>();
+            foreach (Muscle muscle in allMuscles)
+            {
+                var exercises = new List<ChartData>();
+                foreach (Exercise exercise in allExercises)
+                {
+                    if (muscle.Id == exercise.TargetsMuscle.Id)
+                    {
+                        exercises.Add(new ChartData(exercise, null));
+                    }
+                }
+
+                muscles.Add(new ChartData(muscle, exercises));
+            }
+
+            return muscles.ToArray();
         }
 
         public PluginDataEditControl GetEditControl(IPluginData data)
         {
             return new ChartControl((ChartData)data);
+        }
+
+        private IEnumerable<Muscle> GetMuscles()
+        {
+            var muscleService = new MuscleService(new MuscleRepository(), new MuscleGroupRepository());
+            List<Muscle> allMuscles = muscleService.GetAll();
+
+            return allMuscles;
         }
 
         private IEnumerable<Exercise> GetExercises()

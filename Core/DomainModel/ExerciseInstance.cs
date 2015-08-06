@@ -22,6 +22,12 @@ namespace DomainModel
             Validate();
         }
 
+        public string Name
+        {
+            get { return string.Empty; }
+            set { }
+        }
+
         public void Validate()
         {
             if (Date <= DateTime.MinValue)

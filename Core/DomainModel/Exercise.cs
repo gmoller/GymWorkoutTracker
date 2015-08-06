@@ -13,5 +13,12 @@
             ExRxName = exRxName;
             AlternateName = alternateName;
         }
+
+
+        public string Name
+        {
+            get { return ExRxName; }
+            set { ExRxName = value; }
+        }
     }
 }

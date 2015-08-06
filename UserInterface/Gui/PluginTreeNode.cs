@@ -17,13 +17,24 @@ namespace Gui
             IPluginData[] data = _instance.GetData();
             foreach (IPluginData item in data)
             {
-                Nodes.Add(new DataTreeNode(item));
-
-                if (item.Children != null)
+                if (item.Children == null)
                 {
+                    Nodes.Add(new LeafTreeNode(item));
+                }
+                else
+                {
+                    int i = Nodes.Add(new BranchTreeNode(item));
+                    var newNode = Nodes[i];
                     foreach (IPluginData childItem in item.Children)
                     {
-                        Nodes.Add(new DataTreeNode(childItem));
+                        if (childItem.Children == null)
+                        {
+                            newNode.Nodes.Add(new LeafTreeNode(childItem));
+                        }
+                        else
+                        {
+                            newNode.Nodes.Add(new BranchTreeNode(childItem));
+                        }
                     }
                 }
             }

@@ -17,7 +17,7 @@ namespace Charts
             : base(chartData)
         {
             Chart chart = AddChartToForm(chartData);
-            IEnumerable<ExerciseInstance> exercisesInstances = GetExerciseInstances(chartData.Exercise.Id);
+            IEnumerable<ExerciseInstance> exercisesInstances = GetExerciseInstances(chartData.Parent.Id);
             AddDataPointsToChart(exercisesInstances, chart);
 
             InitializeComponent();

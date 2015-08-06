@@ -155,25 +155,74 @@ namespace Gui
             }
             _panel.Controls.Clear();
 
-            TreeNode node = e.Node as PluginTreeNode;
-
-            if (node != null)
+            if (IsNodeTheRootNode(e.Node))
             {
-                _status.Panels[0].Text = ((PluginTreeNode)node).Description;
+                PluginTreeNode node = GetAsRootNode(e.Node);
+                _status.Panels[0].Text = node.Description;
             }
             else
             {
-                node = e.Node as DataTreeNode;
-                if (node != null)
+                if (IsNodeABranchNode(e.Node))
                 {
-                    _status.Panels[0].Text = ((PluginTreeNode)node.Parent).Description;
-                    PluginDataEditControl control = ((PluginTreeNode)node.Parent).Instance.GetEditControl(((DataTreeNode)node).Data);
-                    control.Dock = DockStyle.Fill;
-                    _panel.Controls.Add(control);
+                    BranchTreeNode node = GetAsBranchNode(e.Node);
+                    _status.Panels[0].Text = node.Text;
+                }
+                else
+                {
+                    if (IsNodeALeafNode(e.Node))
+                    {
+                        LeafTreeNode node = GetAsLeafNode(e.Node);
+
+                        PluginDataEditControl control = ((PluginTreeNode)node.Parent.Parent).Instance.GetEditControl((node).Data);
+                        control.Dock = DockStyle.Fill;
+                        _panel.Controls.Add(control);
+                    }
                 }
             }
 
             _treeview.ExpandAll();
+        }
+
+        private bool IsNodeTheRootNode(TreeNode node)
+        {
+            TreeNode n = GetAsRootNode(node);
+
+            return (n != null);
+        }
+
+        private bool IsNodeABranchNode(TreeNode node)
+        {
+            TreeNode n = GetAsBranchNode(node);
+
+            return (n != null);
+        }
+
+        private bool IsNodeALeafNode(TreeNode node)
+        {
+            TreeNode n = GetAsLeafNode(node);
+
+            return (n != null);
+        }
+
+        private PluginTreeNode GetAsRootNode(TreeNode selectedNode)
+        {
+            var node = selectedNode as PluginTreeNode;
+
+            return node;
+        }
+
+        private BranchTreeNode GetAsBranchNode(TreeNode selectedNode)
+        {
+            var node = selectedNode as BranchTreeNode;
+
+            return node;
+        }
+
+        private LeafTreeNode GetAsLeafNode(TreeNode selectedNode)
+        {
+            var node = selectedNode as LeafTreeNode;
+
+            return node;
         }
 
         private void splitContainer_SplitterMoving(Object sender, SplitterCancelEventArgs e)
