@@ -28,23 +28,30 @@ namespace Charts
             var chart = new Chart { Dock = DockStyle.Fill, BackColor = Color.White };
             var title = new Title(chartData.ToString()) { Font = new Font("Verdana", 14.0f) };
             chart.Titles.Add(title);
+            chart.Legends.Add(new Legend("Legend"));
 
             var area = new ChartArea("Main")
             {
                 BackColor = Color.White,
                 BackSecondaryColor = Color.LightSteelBlue,
                 BackGradientStyle = GradientStyle.DiagonalRight,
-                AxisY = { Maximum = 100 }
+                AxisY = { Maximum = 100 },
+                AxisY2 = { Maximum = 20 }
             };
 
             area.AxisX.MajorGrid.LineColor = Color.LightSlateGray;
+            area.AxisX.TitleFont = new Font("Verdana", 10.0f, FontStyle.Bold);
+            area.AxisX.Title = "Date";
             area.AxisY.MajorGrid.LineColor = Color.LightSlateGray;
+            area.AxisY.TitleFont = new Font("Verdana", 10.0f, FontStyle.Bold);
+            area.AxisY.Title = "Weight";
+            area.AxisY2.Title = "Reps";
 
             chart.ChartAreas.Add(area);
 
-            var seriesColumns1 = new Series("ExerciseInstances.Weights") { ChartType = SeriesChartType.Line };
+            var seriesColumns1 = new Series("Weights") { ChartType = SeriesChartType.Line, IsValueShownAsLabel = true };
             chart.Series.Add(seriesColumns1);
-            var seriesColumns2 = new Series("ExerciseInstances.Reps") { ChartType = SeriesChartType.Line };
+            var seriesColumns2 = new Series("Reps") { ChartType = SeriesChartType.Line };
             chart.Series.Add(seriesColumns2);
 
             Controls.Add(chart);
@@ -65,22 +72,22 @@ namespace Charts
         private void AddDataPointsToChart(IEnumerable<ExerciseInstance> exerciseInstances, Chart chart)
         {
             string exrxName = string.Empty;
-            float axisYMaximum = 0.0f;
-            float axisYMinimum = float.MaxValue;
+            double axisYMaximum = 0.0f;
+            double axisYMinimum = float.MaxValue;
 
             foreach (ExerciseInstance exerciseInstance in exerciseInstances)
             {
-                chart.Series["ExerciseInstances.Weights"].Points.Add(exerciseInstance.Weight);
-                chart.Series["ExerciseInstances.Reps"].Points.Add(exerciseInstance.Reps);
+                chart.Series["Weights"].Points.AddXY(exerciseInstance.Date, exerciseInstance.OneRepMax);
+                chart.Series["Reps"].Points.AddXY(exerciseInstance.Date, exerciseInstance.Reps);
 
-                if (exerciseInstance.Weight < axisYMinimum)
+                if (exerciseInstance.OneRepMax < axisYMinimum)
                 {
-                    axisYMinimum = exerciseInstance.Weight - (exerciseInstance.Weight * 0.05f);
+                    axisYMinimum = exerciseInstance.OneRepMax - (exerciseInstance.OneRepMax * 0.1f);
                 }
 
-                if (exerciseInstance.Weight > axisYMaximum)
+                if (exerciseInstance.OneRepMax > axisYMaximum)
                 {
-                    axisYMaximum = exerciseInstance.Weight * 1.05f;
+                    axisYMaximum = exerciseInstance.OneRepMax * 1.1f;
                 }
                 exrxName = exerciseInstance.Exercise.ExRxName;
             }

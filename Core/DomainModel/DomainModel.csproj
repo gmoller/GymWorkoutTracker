@@ -33,7 +33,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OneRepMaxCalculationFormulas\EpleyFormula.cs" />
     <Compile Include="EntityBase.cs" />
+    <Compile Include="IOneRepMaxCalculator.cs" />
     <Compile Include="MuscleGroup.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="ExerciseInstance.cs" />

@@ -13,10 +13,16 @@ namespace Charts
     {
         public IPluginData[] GetData()
         {
-            IEnumerable<Muscle> allMuscles = GetMuscles();
-            IEnumerable<Exercise> allExercises = GetExercises();
+            List<MuscleGroup> allMuscleGroups = GetMuscleGroups();
+            List<Muscle> allMuscles = GetMuscles();
+            List<Exercise> allExercises = GetExercises();
 
-            var muscles = new List<ChartData>();
+            var data = new List<ChartData>();
+            foreach (MuscleGroup muscleGroup in allMuscleGroups)
+            {
+
+            }
+
             foreach (Muscle muscle in allMuscles)
             {
                 var exercises = new List<ChartData>();
@@ -28,10 +34,10 @@ namespace Charts
                     }
                 }
 
-                muscles.Add(new ChartData(muscle, exercises));
+                data.Add(new ChartData(muscle, exercises));
             }
 
-            return muscles.ToArray();
+            return data.ToArray();
         }
 
         public PluginDataEditControl GetEditControl(IPluginData data)
@@ -39,7 +45,15 @@ namespace Charts
             return new ChartControl((ChartData)data);
         }
 
-        private IEnumerable<Muscle> GetMuscles()
+        private List<MuscleGroup> GetMuscleGroups()
+        {
+            var muscleGroupService = new MuscleGroupService(new MuscleGroupRepository());
+            List<MuscleGroup> allMuscleGroups = muscleGroupService.GetAll();
+
+            return allMuscleGroups;
+        }
+
+        private List<Muscle> GetMuscles()
         {
             var muscleService = new MuscleService(new MuscleRepository(), new MuscleGroupRepository());
             List<Muscle> allMuscles = muscleService.GetAll();
@@ -47,7 +61,7 @@ namespace Charts
             return allMuscles;
         }
 
-        private IEnumerable<Exercise> GetExercises()
+        private List<Exercise> GetExercises()
         {
             var exerciseService = new ExerciseService(new ExerciseRepository(), new MuscleRepository());
             List<Exercise> allExercises = exerciseService.GetAll();

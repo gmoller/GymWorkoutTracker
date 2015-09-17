@@ -1,4 +1,5 @@
 ﻿using System;
+using DomainModel.OneRepMaxCalculationFormulas;
 
 namespace DomainModel
 {
@@ -26,6 +27,15 @@ namespace DomainModel
         {
             get { return string.Empty; }
             set { }
+        }
+
+        public double OneRepMax
+        {
+            get
+            {
+                IOneRepMaxCalculator oneRepMaxCalculator = new EpleyFormula();
+                return oneRepMaxCalculator.Calculate(Reps, Weight);
+            }
         }
 
         public void Validate()
